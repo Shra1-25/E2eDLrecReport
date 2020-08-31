@@ -1,0 +1,452 @@
+<!DOCTYPE HTML>
+<!--
+	Dimension by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>E2e Deep Learning </title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="logo">
+							<span class="cern"><img src="images/e2elogo.png" /></span>
+						</div>
+						<div class="content">
+							<div class="inner">
+								<h1>End-to-end Deep Learning Reconstruction for CMS Experiment</h1>
+								<p> A Google Summer of Code 2020 project. <a href="https://github.com/Shra1-25/E2eDL">Link to the project</a> <br />
+								Mentors: <br />
+								Sergei Gleyzer (CERN,FermiLab) <br />
+								Michael Andrews (CERN,CMU)<br/>
+								Emanuele Usai (CERN,Brown)<br/>
+								</a></p>
+							</div>
+						</div>
+						<nav>
+							<ul>
+								<li><a href="#intro">Intro</a></li>
+								<li><a href="#workflow">Workflow</a></li>
+								<li><a href="#execution">Executing the Code</a></li>
+								<li><a href="#architecture">Model Architecture</a></li>
+								<li><a href="#inferences">Inferences</a></li>
+								<li><a href="#acknowledgements">Acknowledgements</a></li>
+								<li><!--<a href="#contact">Contact</a>--></li>
+								<!--<li><a href="#elements">Elements</a></li>-->
+							</ul>
+						</nav>
+					</header>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Intro -->
+							<article id="intro">
+								<h2 class="major">Intro</h2>
+								<span class="image main"><img src="images/pintro1.png" alt="" /></span>
+								<p>&nbsp &nbsp &nbsp Hi, I am Shravan and this page describes the details of my <a href="https://summerofcode.withgoogle.com/projects/#6253429585870848"> Google Summer of Code 2020 project</a> with CERN-HSF. The complete code can be found <a href="https://github.com/Shra1-25/E2eDL">here</a>. I primarily worked on <a href= "https://github.com/cms-sw/cmssw">CMSSW </a>(CMS Software) Framework. This project focuses on the integration of E2E code with CMSSW inference engine for use in reconstruction algorithms in offline and high-level trigger systems of the <a href="https://home.cern/science/experiments/cms">CMS</a> experiment. </p>
+								<h3 class="major">CMS Experiment</h3>
+								<p>The CMS apparatus was identified, a few years before the start of the LHC operation at CERN, to feature properties well suited to particle-flow (PF) reconstruction: a highly-segmented tracker, a fine-grained electromagnetic calorimeter, a hermetic hadron calorimeter, a strong magnetic field, and an excellent muon spectrometer. One of the important aspects of searches for new physics at the Large Hadron Collider (LHC) involves the identification and reconstruction of single particles, jets in collision events in the collision experiment. The Compact Muon Solenoid Collaboration (CMS) uses a particle flow (PF) reconstruction approach that converts raw detector data into progressively physically-motivated quantities until arriving at particle-level data. Such high-level features are the result of a rule-based casting of the raw detector data into progressively more physically-motivated quantities. While such approaches have proven to be useful, they are highly dependent on our ability to completely and effectively model all aspects of particle decay phenomenology. 
+</p>
+								<p>From particle identification to the discovery of the Higgs boson, deep learning algorithms have become an increasingly important tool for data analysis at the Large Hadron Collider (LHC). Powerful image-based Convolutional Neural Network (CNN) algorithms have emerged, capable of training directly on raw data, learning the pertinent features unassisted - so-called end-to-end deep learning classifiers. We present an innovative end-to-end deep learning approach for the reconstruction of single particles, jets and event topologies. The final model of End-to-End Deep Learning will be implemented on CMSSW (CMS Software) inference engine. The inference of the developed model will also be implemented on GPUs for faster computations. We will develop the deep learning models and train and implement them on simulated data from the Electromagnetic Calorimeter (ECAL) of the CMS detector at the LHC. 
+</p>
+							<p>In this project, we have applied the E2E approach to the discrimination of single particles like electron vs photon, quark vs gluon as well as jet classification for top quarks and integrated the E2E inference with CMSSW framework for production uses.</p>
+							<h3 class="major">CMSSW Framework</h3>
+							<span class="image main"><img src="images/cmsframework1.png" alt="" /></span>
+							<p style="font-size:15px">&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<a href="http://www.truba.gov.tr/wp-content/uploads/2018/07/Tutorial-TAEK-CMSSW-Benedikth.pdf">(source)</a> </p>
+							<p>  It is the overall collection of software built around a framework, an Event Data Model (EDM), and Services needed by the simulation, calibration and alignment, and reconstruction modules that process event data so that physicists can perform analysis. The primary goal of the Framework and EDM is to facilitate the development and deployment of reconstruction and analysis software. The CMSSW event processing model consists of many plug-in modules which are managed by the Framework. All the code needed in the event processing (calibration, reconstruction algorithms etc.) is contained in the modules. These can be used for both detector and Monte Carlo data. Some of these modules are: </p>
+<p> <a href="https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideEDProducer"> EDProducer</a>: creates new data to be placed in the Event. </p>
+<p> <a href="https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideEDAnalyzerAnalysis">EDAnalyzer</a>: studies properties of the Event. </p>
+<p> <a href="https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideEDFilterAnalysis">EDFilter</a>: decides if processing should continue on a path for an Event.</p>
+<p> <a href="https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideAboutPythonConfigFile">OutputModule</a>: Stores the data from the Event.</p>
+The CMS Event Data Model (EDM) is centered around the concept of Event. An Event is a C++ object container for all RAW and reconstructed data related to a particular collision. The data are passed from one module to the next via the Event, and are accessed only through the Event. This flow of Data may be better understood by the above diagram. All the objects in theEvent may be individually or collectively stored in ROOT Files.
+</p>
+							</article>
+
+						<!-- Workflow -->
+							<article id="workflow">
+								<h2 class="major">Workflow</h2>
+								<span class="image main"><img src="images/workflow1.jpg" alt="" /></span>
+								<h3 class="major">Data Format:</h3>
+								<p>Various successive operations refine the raw data from the online system. They apply calibrations and create higher level physics objects. CMS uses a variety of data formats of detail, size, and refinement to write this data in its various stages. A data format is essentially C++ class, where a class defines a data structure (a data type with data members). Data is added to an Event using the EDProducer module. Event information from each step in the stimulation and reconstruction chain is logically grouped into a data-tier. RECO (Reconstructed) Data is an example of Data-tier. It contains objects from all stages of reconstruction and is derived from RAW data and provides access to  reconstructed physics objects for physics analysis in a convenient format. In my project I have mainly used the objects of RECO data-tier and after processing the data, running the inference, the predictions along with other objects (data frames) are added to the event using EDProducer.
+</p>
+								<h3 class="major">Data flow in the E2E project:</h3>
+								<p>Before running the inference on the particles (electron/photon, quark/gluon, top quarks, etc. ), the data from the edm file needs to be preprocessed. This involves reading the data from the edm root file, storing the extracted detector image arrays directly to the edm root file (which can be used directly for analysis and processing such as running the inference, etc.), reading seed coordinates from the edm file and cropping the detector image arrays into 2-dimensional frames centered around the extracted seed coordinates, running the inference on the cropped frames and storing the predictions back to the edm production file. The following is the representation of the flow of data: 
+</p>
+								<span class="image main"><img src="images/dataflow1.png" alt="" /></span>
+								<h3 class="major">Reading Detector Images and Storing the extracted <br/>Image vectors to EDM ROOT File:</h3>
+								<p> The EDProducer- DetImgProducer performs the process of reading Object Collections like ‘reducedEcalRecHitsEB’, ‘gedPhotons’, ‘reducedHcalRecHits:hbhereco’, etc. which are required for processing and running the inference. The extracted arrays are stored in the edm root file as flat 1-Dimensional vectors (like EcalRecHitsEB, HBHE, stitched ECAL, Tracks at ECAL stitched). These flattened vectors of Detector Images can be used directly for further processing and inference. 
+</p>
+								<h3 class="major">Extracting Jet seed coordinates:</h3>
+								<p> In order to crop the frames from the detector image arrays, first the centers of the frames need to be determined. The frames are centered around the jet seed coordinates present in the Jet collections (for example ‘gedPhotons’ for photon seeds ) for the respective particles. This task is performed by EDProducers- EGProducer and QGProducer for photon and quark/gluon respectively. The jet seed coordinates are selected on the basis of certain criteria such as those seeds whose eta coordinate is at the corner of the detector images are neglected, as well as the seeds having energies less than zero are neglected too.</p>
+								<h3 class="major">Preparing the frames for inference:</h3>
+								<p> After determining the centers, the frame of required sizes are cropped from the Detector image vectors that were stored by DetImgProducer in the edm file. For photons, the cropped frame size is set to 32x32 and for quark and gluons, the size is 125x125. The cropping function is performed by EGProducer and QGProducer for their respective particles. For HBHE frames, they are first upsampled (for converting HB tower coordinates to EB crystal coordinates) and necessary striding are performed before cropping the frames and feeding them to the inference.
+</p>
+								<h3 class="major">Running the Inference and storing the predictions:</h3>
+								<p> The inference of a trained model is run using the Tensorflow C++ API present in the CMSSW Framework. The tensorflow model trained in python should be stored in protobuf (.pb) format. The name of the protobuf file can be passed as a parameter in the EDProducers while calling the predict_tf function for running the inference and making the predictions. However, to avoid any errors, some care has to be taken while preparing the protobuf  models in python. The python API of Tensorflow is actively updated unlike C++ Tensorflow leading to some issues of version incompatibility while trying to run some tensorflow models trained in python. To avoid such issues it is advisable to save the tensorflow models in python using ‘Tensorflow 1.6.0’ or a lesser version. This will ensure the Ops used while creating the protobuf files are compatible with the Tensorflow Graph interpreter of CMSSW Framework. If Keras is used, the version recommended is ‘Keras 2.1.5’. 
+After the inference is run successfully, the predictions are stored in the edm root file. 
+</p>
+								<h3 class="major">Configuration Files in CMSSW:</h3>
+								<p> All CMS code is run by passing a config file (_cfg.py) to CMSSW executable <a href="https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideAboutPythonConfigFile#Passing_Command_Line_Arguments_T"> cmsRun</a>. A configuration file defines which modules are loaded, the order in which they are run, and the configurable parameters that are used to run the modules. Configurations are written using the Python Language. The python folder of the repository submitted contains all the configuration files for the EDProducers.</p>
+
+							</article>
+
+						<!-- Execution -->
+							<article id="execution">
+								<h2 class="major">Executing the Code</h2>
+								<span class="image main"><img src="images/execution1.jpg" alt="" /></span>
+								<p> The configuration options to run the whole process including all the EDProducers is present in E2eDLrec_cfg.py.
+The commands to execute the configuration files and hence, the EDProducers (in E2eDLrec) is :
+</p>
+<p> &nbsp &nbsp &nbsp &nbsp $ git clone https://github.com/Shra1-25/E2eDL.git  <br />
+    &nbsp &nbsp &nbsp &nbsp $ scram b  <br />
+    &nbsp &nbsp &nbsp &nbsp $ cmsRun E2eDL/E2eDLrec/python/E2eDLrec_cfg.py \ <br />
+    &nbsp &nbsp &nbsp &nbsp > inputFiles=file:input_root_file_location/filename.root \<br />
+    &nbsp &nbsp &nbsp &nbsp > maxEvents=100  \<br />
+    &nbsp &nbsp &nbsp &nbsp > EGModelName=e_vs_ph_model.pb \<br />
+    &nbsp &nbsp &nbsp &nbsp > QGModelName=ResNet.pb \<br />
+    &nbsp &nbsp &nbsp &nbsp > TopQuarksModelName=ResNet.pb <br />
+</p>
+<p> Before running the command cmsRun, please ensure that the TensorFlow models (protobuf-'.pb' files) are present in the E2eDL folder along with E2eDLrec and E2eDLrecClasses. For sample ResNet.pb file is present there.  </p>
+							</article>
+						 <!-- Architecture -->
+							<article id="architecture">
+								<h2 class="major">Model Architectures</h2>
+								<span class="image main"><img src="images/inferences1.jpg" alt="" /></span>
+								<p>Model Architecture for Electron vs Photon inferences </p>
+								<span class="image main"><img src="images/inferences1.jpg" alt="" /></span>
+								<p>Model Architecture for Quark vs Gluon inferences and for Top Quarks  </p>
+								<span class="image main"><img src="images/inferences1.jpg" alt="" /></span>
+
+							</article>
+
+					        <!-- Inferences -->
+							<article id="inferences">
+								<h2 class="major">Inferences</h2>
+								<span class="image main"><img src="images/inferences1.jpg" alt="" /></span>
+
+								<p>The models used for the following timing and memory checks are <a href="https://github.com/Shra1-25/Cern_HSF_tasks/blob/master/Keras_model2.ipynb">e_vs_ph_model</a> and <a href="https://github.com/Shra1-25/Cern_HSF_tasks/blob/master/TopQuarks.ipynb"> ResNet</a>.
+</p>
+								<p> Inference Timing results:</p>
+								<span class="image main"><img src="images/timing1.png" alt="" /></span>
+								<p> Inference Memory results:</p>
+								<span class="image main"><img src="images/memory1.png" alt="" /></span>
+							</article>
+							
+						<!-- Acknowledgements -->
+							<article id="acknowledgements">
+								<h2 class="major">Acknowledgements</h2>
+								<span class="image main"><img src="images/cern1.png" alt="" /></span>
+								<p>I am very grateful and indebted to my mentors Sergei Gleyzer (CERN,FermiLab), Michael Andrews (CERN,CMU) and Emanuele Usuai (CERN,Brown) for being available to my doubts and queries all the time. I am grateful to the whole E2E team for providing me an invaluable learning experience during the Google Summer Of Code 2020 period. Their help has been extremely useful to me. I am also grateful to CERN-HSF and Google for this wonderful opportunity.
+</p>
+							</article>
+
+						<!-- Contact -->
+							<article id="contact">
+								<h2 class="major">Contact</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<label for="name">Name</label>
+											<input type="text" name="name" id="name" />
+										</div>
+										<div class="field half">
+											<label for="email">Email</label>
+											<input type="text" name="email" id="email" />
+										</div>
+										<div class="field">
+											<label for="message">Message</label>
+											<textarea name="message" id="message" rows="4"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="primary" /></li>
+										<li><input type="reset" value="Reset" /></li>
+									</ul>
+								</form>
+								<ul class="icons">
+									<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+								</ul>
+							</article>
+
+						<!-- Elements -->
+							<article id="elements">
+								<h2 class="major">Elements</h2>
+
+								<section>
+									<h3 class="major">Text</h3>
+									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
+									This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
+									This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
+									<hr />
+									<h2>Heading Level 2</h2>
+									<h3>Heading Level 3</h3>
+									<h4>Heading Level 4</h4>
+									<h5>Heading Level 5</h5>
+									<h6>Heading Level 6</h6>
+									<hr />
+									<h4>Blockquote</h4>
+									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+									<h4>Preformatted</h4>
+									<pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+    print 'Iteration ' + i;
+    deck.shuffle();
+    i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+								</section>
+
+								<section>
+									<h3 class="major">Lists</h3>
+
+									<h4>Unordered</h4>
+									<ul>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Sagittis adipiscing.</li>
+										<li>Felis enim feugiat.</li>
+									</ul>
+
+									<h4>Alternate</h4>
+									<ul class="alt">
+										<li>Dolor pulvinar etiam.</li>
+										<li>Sagittis adipiscing.</li>
+										<li>Felis enim feugiat.</li>
+									</ul>
+
+									<h4>Ordered</h4>
+									<ol>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Etiam vel felis viverra.</li>
+										<li>Felis enim feugiat.</li>
+										<li>Dolor pulvinar etiam.</li>
+										<li>Etiam vel felis lorem.</li>
+										<li>Felis enim et feugiat.</li>
+									</ol>
+									<h4>Icons</h4>
+									<ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
+									</ul>
+
+									<h4>Actions</h4>
+									<ul class="actions">
+										<li><a href="#" class="button primary">Default</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+									<ul class="actions stacked">
+										<li><a href="#" class="button primary">Default</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+								</section>
+
+								<section>
+									<h3 class="major">Table</h3>
+									<h4>Default</h4>
+									<div class="table-wrapper">
+										<table>
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Description</th>
+													<th>Price</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Item One</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Two</td>
+													<td>Vis ac commodo adipiscing arcu aliquet.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Three</td>
+													<td> Morbi faucibus arcu accumsan lorem.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Four</td>
+													<td>Vitae integer tempus condimentum.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Five</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="2"></td>
+													<td>100.00</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+
+									<h4>Alternate</h4>
+									<div class="table-wrapper">
+										<table class="alt">
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Description</th>
+													<th>Price</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td>Item One</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Two</td>
+													<td>Vis ac commodo adipiscing arcu aliquet.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Three</td>
+													<td> Morbi faucibus arcu accumsan lorem.</td>
+													<td>29.99</td>
+												</tr>
+												<tr>
+													<td>Item Four</td>
+													<td>Vitae integer tempus condimentum.</td>
+													<td>19.99</td>
+												</tr>
+												<tr>
+													<td>Item Five</td>
+													<td>Ante turpis integer aliquet porttitor.</td>
+													<td>29.99</td>
+												</tr>
+											</tbody>
+											<tfoot>
+												<tr>
+													<td colspan="2"></td>
+													<td>100.00</td>
+												</tr>
+											</tfoot>
+										</table>
+									</div>
+								</section>
+
+								<section>
+									<h3 class="major">Buttons</h3>
+									<ul class="actions">
+										<li><a href="#" class="button primary">Primary</a></li>
+										<li><a href="#" class="button">Default</a></li>
+									</ul>
+									<ul class="actions">
+										<li><a href="#" class="button">Default</a></li>
+										<li><a href="#" class="button small">Small</a></li>
+									</ul>
+									<ul class="actions">
+										<li><a href="#" class="button primary icon solid fa-download">Icon</a></li>
+										<li><a href="#" class="button icon solid fa-download">Icon</a></li>
+									</ul>
+									<ul class="actions">
+										<li><span class="button primary disabled">Disabled</span></li>
+										<li><span class="button disabled">Disabled</span></li>
+									</ul>
+								</section>
+
+								<section>
+									<h3 class="major">Form</h3>
+									<form method="post" action="#">
+										<div class="fields">
+											<div class="field half">
+												<label for="demo-name">Name</label>
+												<input type="text" name="demo-name" id="demo-name" value="" placeholder="Jane Doe" />
+											</div>
+											<div class="field half">
+												<label for="demo-email">Email</label>
+												<input type="email" name="demo-email" id="demo-email" value="" placeholder="jane@untitled.tld" />
+											</div>
+											<div class="field">
+												<label for="demo-category">Category</label>
+												<select name="demo-category" id="demo-category">
+													<option value="">-</option>
+													<option value="1">Manufacturing</option>
+													<option value="1">Shipping</option>
+													<option value="1">Administration</option>
+													<option value="1">Human Resources</option>
+												</select>
+											</div>
+											<div class="field half">
+												<input type="radio" id="demo-priority-low" name="demo-priority" checked>
+												<label for="demo-priority-low">Low</label>
+											</div>
+											<div class="field half">
+												<input type="radio" id="demo-priority-high" name="demo-priority">
+												<label for="demo-priority-high">High</label>
+											</div>
+											<div class="field half">
+												<input type="checkbox" id="demo-copy" name="demo-copy">
+												<label for="demo-copy">Email me a copy</label>
+											</div>
+											<div class="field half">
+												<input type="checkbox" id="demo-human" name="demo-human" checked>
+												<label for="demo-human">Not a robot</label>
+											</div>
+											<div class="field">
+												<label for="demo-message">Message</label>
+												<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
+											</div>
+										</div>
+										<ul class="actions">
+											<li><input type="submit" value="Send Message" class="primary" /></li>
+											<li><input type="reset" value="Reset" /></li>
+										</ul>
+									</form>
+								</section>
+
+							</article>
+
+					</div>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<p class="copyright"> CERN-HSF CMS Experiment: <a href="https://github.com/Shra1-25/E2eDL">E2e Deep Learning Reconstruction for CMS Experiment</a>.<br/>
+Contact: <br/>
+Email: shravan25.chaudhari@gmail.com <br/>
+Github: https://github.com/Shra1-25 <br/>
+Linkedin: https://www.linkedin.com/in/shravan-chaudhari/
+</p>
+					</footer>
+
+			</div>
+
+		<!-- BG -->
+			<div id="bg"></div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
