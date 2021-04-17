@@ -85,7 +85,7 @@ The CMS Event Data Model (EDM) is centered around the concept of Event. An Event
 								<h3 class="major">Data flow in the E2E project:</h3>
 								<p>Before running the inference on the particles (electron/photon, quark/gluon, top quarks, etc. ), the data from the edm file needs to be preprocessed. This involves reading the data from the edm root file, storing the extracted detector image arrays directly to the edm root file (which can be used directly for analysis and processing such as running the inference, etc.), reading seed coordinates from the edm file and cropping the detector image arrays into 2-dimensional frames centered around the extracted seed coordinates, running the inference on the cropped frames and storing the predictions back to the edm production file. The following is the representation of the flow of data: 
 </p>
-								<span class="image main"><img src="images/dataflow1.png" alt="" /></span>
+								<span class="image main"><img src="images/E2ePipeline.png" alt="" /></span>
 								<h3 class="major">Reading Detector Images and Storing the extracted <br/>Image vectors to EDM ROOT File:</h3>
 								<p> The EDProducer- DetImgProducer performs the process of reading Object Collections like ‘reducedEcalRecHitsEB’, ‘gedPhotons’, ‘reducedHcalRecHits:hbhereco’, etc. which are required for processing and running the inference. The extracted arrays are stored in the edm root file as flat 1-Dimensional vectors (like EcalRecHitsEB, HBHE, stitched ECAL, Tracks at ECAL stitched). These flattened vectors of Detector Images can be used directly for further processing and inference. 
 </p>
